@@ -156,9 +156,23 @@ footer strong{color:var(--forest)}
   .float{transform:none}
 }
 </style>
-<!-- Meta Pixel: pega aquí el código de tu píxel cuando lo tengas -->
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '737161781995774');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
 </head>
 <body class="no-js">
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=737161781995774&ev=PageView&noscript=1"></noscript>
 <script>document.body.classList.remove('no-js')</script>
 
 <header>
@@ -348,7 +362,11 @@ const offer = document.querySelector("#oferta");
 let heroGone = false, offerIn = false;
 const upd = () => float.classList.toggle("show", heroGone && !offerIn);
 new IntersectionObserver(([e]) => { heroGone = !e.isIntersecting && e.boundingClientRect.top < 0; upd(); }).observe(hero);
-new IntersectionObserver(([e]) => { offerIn = e.isIntersecting; upd(); }).observe(offer);
+let vcSent = false;
+new IntersectionObserver(([e]) => {
+  offerIn = e.isIntersecting; upd();
+  if (e.isIntersecting && !vcSent && window.fbq) { vcSent = true; fbq("track", "ViewContent", { content_name: "Ensaladas que Llenan", value: 19999, currency: "COP" }); }
+}).observe(offer);
 </script>
 </body>
 </html>
